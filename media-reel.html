@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Reel — PurposePath Media PH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #0E1014;
+    --panel: #16191F;
+    --panel-2: #1C2028;
+    --line: #2A2F3A;
+    --text: #F1F2F4;
+    --muted: #9BA1AC;
+    --amber: #FFB020;
+
+    --c1: #FF6B4A; /* video */
+    --c2: #3AAFA9; /* social */
+    --c3: #8B5CF6; /* canva */
+    --c4: #F2B705; /* marketing plan */
+    --c5: #2E86AB; /* website articles */
+    --c6: #E4572E; /* email */
+    --c7: #5B8C5A; /* funnel */
+    --c8: #D65DB1; /* landing pages */
+    --c9: #4C6EF5; /* course dev */
+    --c10:#17A398; /* magazines */
+    --c11:#C9184A; /* seo */
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  body{
+    margin:0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: inherit; }
+
+  ::selection{ background: var(--amber); color: #14161A; }
+
+  .siteback{
+    background:#0A0B0E;
+    border-bottom:1px solid var(--line);
+    padding: 8px 28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    display:flex;
+    gap: 18px;
+  }
+  .siteback a{
+    color: var(--muted);
+    text-decoration:none;
+    transition: color 0.15s ease;
+  }
+  .siteback a:hover{ color: var(--amber); }
+
+  /* ---------- Top chrome bar ---------- */
+  .chrome{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    position: sticky;
+    top:0;
+    z-index: 50;
+  }
+  .chrome-left{ display:flex; align-items:center; gap:10px; }
+  .dots{ display:flex; gap:6px; }
+  .dots span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .dots span:nth-child(1){ background:#FF5F57; }
+  .dots span:nth-child(2){ background:#FEBC2E; }
+  .dots span:nth-child(3){ background:#28C840; }
+  .chrome-title{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .chrome-right{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    display:flex; align-items:center; gap: 8px;
+  }
+  .rec-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:#FF4D4D;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; } 50%{ opacity:0.25; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 84px 28px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  h1{
+    font-family:'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+  .hero-role{
+    font-family:'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+    color: var(--amber);
+    margin: 0 0 20px;
+  }
+  .hero-desc{
+    max-width: 620px;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin: 0 0 42px;
+  }
+
+  /* ---------- Timeline scrubber ---------- */
+  .scrubber-wrap{
+    position: sticky;
+    top: 47px;
+    z-index: 40;
+    background: var(--ink);
+    padding: 10px 28px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .scrubber{
+    max-width: 1080px;
+    margin: 0 auto;
+    display:flex;
+    gap: 3px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .scrubber::-webkit-scrollbar{ display:none; }
+  .scrub-seg{
+    flex: 1 0 64px;
+    height: 30px;
+    border-radius: 4px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    text-decoration:none;
+  }
+  .scrub-seg:hover{ transform: translateY(-2px); }
+  .scrub-seg .fill{
+    position:absolute; inset:0; border-radius:3px; opacity: 0.28;
+  }
+  .scrub-seg.active .fill{ opacity: 0.85; }
+  .scrub-seg.active{ border-color: var(--amber); }
+  .scrub-label{
+    position:absolute; bottom:-18px; left:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    display:none;
+  }
+
+  /* ---------- Layout with rail ---------- */
+  .main-wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 28px 40px;
+    display:grid;
+    grid-template-columns: 46px 1fr;
+    gap: 28px;
+  }
+  .rail{
+    position: relative;
+  }
+  .rail-line{
+    position:absolute;
+    left: 22px; top:6px; bottom: 6px;
+    width: 2px;
+    background: var(--line);
+  }
+  .rail-playhead{
+    position:absolute;
+    left: 14px;
+    width: 18px; height: 18px;
+    border-radius:50%;
+    background: var(--amber);
+    box-shadow: 0 0 0 4px rgba(255,176,32,0.18);
+    transition: top 0.15s linear;
+    top: 0;
+  }
+  @media (max-width: 860px){
+    .main-wrap{ grid-template-columns: 1fr; }
+    .rail{ display:none; }
+  }
+
+  .bin{
+    display:flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .clip{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 26px 26px 24px 22px;
+    display:grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 22px;
+    align-items: start;
+    scroll-margin-top: 130px;
+    border-left: 4px solid var(--clip-color, var(--amber));
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .clip:hover{ transform: translateX(2px); }
+
+  .ext-badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: #14161A;
+    background: var(--clip-color, var(--amber));
+    padding: 5px 9px;
+    border-radius: 5px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  .clip-body{ min-width: 0; }
+  .clip-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--clip-color, var(--amber));
+    margin-bottom: 6px;
+  }
+  .clip-title{
+    font-family:'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 1.24rem;
+    margin: 0 0 8px;
+  }
+  .clip-desc{
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.55;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  .clip-action{
+    align-self: center;
+  }
+  .open-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--clip-color, var(--amber));
+    padding: 10px 14px;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: filter 0.15s ease, transform 0.15s ease;
+  }
+  .open-btn:hover{ filter: brightness(1.12); transform: translateY(-1px); }
+
+  @media (max-width: 640px){
+    .clip{ grid-template-columns: 1fr; }
+    .clip-action{ justify-self: start; }
+  }
+
+  @media (max-width: 460px){
+    .chrome{ padding: 12px 16px; }
+    .chrome-title{ display:none; }
+    .chrome-right{ font-size: 11px; }
+    .hero{ padding: 56px 18px 32px; }
+    .scrubber-wrap{ padding: 10px 18px 14px; }
+    .main-wrap{ padding: 40px 18px 32px; }
+    footer{ padding: 28px 18px 32px; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 34px 28px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-mark{
+    font-family:'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+  .footer-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+  <div class="siteback">
+    <a href="index.html">&larr; PurposePath Media PH</a>
+    <a href="portfolio.html">Written Portfolio</a>
+  </div>
+
+  <div class="chrome">
+    <div class="chrome-left">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="chrome-title">Mervalyn_Tomas_Portfolio.project</div>
+    </div>
+    <div class="chrome-right">
+      <span class="rec-dot"></span>
+      <span>REC</span>
+      <span id="clock">00:00:00:00</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-eyebrow">// Media Bin — 11 items loaded</div>
+    <h1>Mervalyn<br>Tomas</h1>
+    <p class="hero-role">Content Creator &amp; Digital Marketing Specialist</p>
+    <p class="hero-desc">Video editing, social content, graphic design, copywriting, and marketing strategy — scrub through the timeline below or scroll to see the full reel.</p>
+  </section>
+
+  <div class="scrubber-wrap">
+    <nav class="scrubber" id="scrubber"></nav>
+  </div>
+
+  <div class="main-wrap">
+    <div class="rail">
+      <div class="rail-line"></div>
+      <div class="rail-playhead" id="playhead"></div>
+    </div>
+
+    <div class="bin" id="bin"></div>
+  </div>
+
+  <footer>
+    <div class="footer-mark">Mervalyn Tomas</div>
+    <div class="footer-note">Portfolio — all folders open in Google Drive</div>
+  </footer>
+
+<script>
+const items = [
+  { id:'video', color:'var(--c1)', ext:'.MP4', eyebrow:'CapCut Pro & Canva', title:'Edited Video Samples',
+    desc:'Short and long-form edits: pacing, transitions, captions, and sound design.',
+    url:'https://drive.google.com/drive/folders/1kp-RH21i9-30u8Trz2FoQDd8BGw1__BV' },
+  { id:'social', color:'var(--c2)', ext:'.PNG', eyebrow:'Posts, carousels & reels', title:'Social Media Content',
+    desc:'Engagement-focused content for Instagram, Facebook, LinkedIn, and YouTube.',
+    url:'https://drive.google.com/drive/folders/1ww1uSOgXiGrV7u4jJDqZnTjeK_N_Cnd2' },
+  { id:'canva', color:'var(--c3)', ext:'.PNG', eyebrow:'Brand & marketing graphics', title:'Canva Graphic Samples',
+    desc:'On-brand graphic design work, from promo assets to branded templates.',
+    url:'https://drive.google.com/drive/folders/1Qjauyq64AJlp9cI_5WhZdLjNgmeXg37v' },
+  { id:'marketing', color:'var(--c4)', ext:'.PDF', eyebrow:'Strategy & business planning', title:'Marketing Plan Samples',
+    desc:'Business plans, email strategy, LinkedIn strategy, and campaign timelines.',
+    url:'https://drive.google.com/drive/folders/1-ylbEq9bnpXiPP4djs4nC3LHKXu2YlIu' },
+  { id:'articles', color:'var(--c5)', ext:'.DOCX', eyebrow:'Blog & website copy', title:'Website Articles',
+    desc:'Case studies, guides, health and wellness pieces, and press releases.',
+    url:'https://drive.google.com/drive/folders/1xplN8GxoO120CC_1zScxh7p2ryZUIED9' },
+  { id:'email', color:'var(--c6)', ext:'.DOCX', eyebrow:'Nurture & sales sequences', title:'Email Samples',
+    desc:'Promotional emails, nurture sequences, and sales copy that converts.',
+    url:'https://drive.google.com/drive/folders/1Z_wZxrZGJFwmlLexVIkq76iBR2fI1gmS' },
+  { id:'funnel', color:'var(--c7)', ext:'.DOCX', eyebrow:'Full funnel strategy', title:'Sales Funnel Samples',
+    desc:'End-to-end funnel builds: landing pages, lead magnets, and nurture emails.',
+    url:'https://drive.google.com/drive/folders/1eF4-rR05yoNHLJLPGNuRKcpvfOl92Ejn' },
+  { id:'landing', color:'var(--c8)', ext:'.DOCX', eyebrow:'Conversion-focused pages', title:'Landing Page Samples',
+    desc:'Landing pages built with clear visual hierarchy and strong calls-to-action.',
+    url:'https://drive.google.com/drive/folders/1v_Y35X6xorOrr5jXazJhtHttLotDidFW' },
+  { id:'course', color:'var(--c9)', ext:'.DOCX', eyebrow:'ESL / TOEIC curriculum', title:'Course Development',
+    desc:'Structured course content and curriculum design for language learners.',
+    url:'https://drive.google.com/drive/folders/1ber4l-hQmWsUYyMds5nnaipAsk2jgycu' },
+  { id:'magazine', color:'var(--c10)', ext:'.PDF', eyebrow:'Print & digital layouts', title:'Magazine Samples',
+    desc:'Magazine-style layouts covering website and print-ready content.',
+    url:'https://drive.google.com/drive/folders/1mGvw-2CxPU3ZOKndi-Xh-j5MH0xWzaE2' },
+  { id:'seo', color:'var(--c11)', ext:'.DOCX', eyebrow:'Audits & keyword strategy', title:'Website & SEO Samples',
+    desc:'Website audits, keyword research, SEO copy, and site testing docs.',
+    url:'https://drive.google.com/drive/folders/1ldQAN1tmU4jS4i4a7MDE-8C-aumeqVKF' },
+];
+
+const bin = document.getElementById('bin');
+const scrubber = document.getElementById('scrubber');
+
+items.forEach((item, i) => {
+  const clip = document.createElement('div');
+  clip.className = 'clip';
+  clip.id = item.id;
+  clip.style.setProperty('--clip-color', item.color);
+  clip.innerHTML = `
+    <div class="ext-badge">${item.ext}</div>
+    <div class="clip-body">
+      <div class="clip-eyebrow">${item.eyebrow}</div>
+      <h2 class="clip-title">${item.title}</h2>
+      <p class="clip-desc">${item.desc}</p>
+    </div>
+    <div class="clip-action">
+      <a class="open-btn" href="${item.url}" target="_blank" rel="noopener">Open Folder &rarr;</a>
+    </div>
+  `;
+  bin.appendChild(clip);
+
+  const seg = document.createElement('a');
+  seg.className = 'scrub-seg';
+  seg.href = '#' + item.id;
+  seg.dataset.target = item.id;
+  seg.innerHTML = `<span class="fill" style="background:${item.color}"></span>`;
+  scrubber.appendChild(seg);
+});
+
+const segs = Array.from(document.querySelectorAll('.scrub-seg'));
+const clips = Array.from(document.querySelectorAll('.clip'));
+const playhead = document.getElementById('playhead');
+const railTop = 6, railBottom = 6;
+
+function updateActive(){
+  const mid = window.scrollY + window.innerHeight * 0.35;
+  let current = clips[0];
+  for(const c of clips){
+    if(c.offsetTop <= mid) current = c;
+  }
+  segs.forEach(s => s.classList.toggle('active', s.dataset.target === current.id));
+
+  const rail = document.querySelector('.rail');
+  if(rail){
+    const railHeight = rail.offsetHeight - railTop - railBottom;
+    const idx = clips.indexOf(current);
+    const pct = clips.length > 1 ? idx / (clips.length - 1) : 0;
+    playhead.style.top = (railTop + pct * railHeight - 9) + 'px';
+  }
+}
+window.addEventListener('scroll', updateActive, { passive:true });
+window.addEventListener('resize', updateActive);
+updateActive();
+
+document.querySelectorAll('.scrub-seg').forEach(seg=>{
+  seg.addEventListener('click', e=>{
+    e.preventDefault();
+    document.getElementById(seg.dataset.target).scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+
+// Fake running timecode, purely ambient
+let frame = 0;
+const clock = document.getElementById('clock');
+function pad(n){ return String(n).padStart(2,'0'); }
+setInterval(()=>{
+  frame++;
+  const totalFrames = frame;
+  const f = totalFrames % 30;
+  const s = Math.floor(totalFrames/30) % 60;
+  const m = Math.floor(totalFrames/30/60) % 60;
+  const h = Math.floor(totalFrames/30/60/60);
+  clock.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
+}, 1000/30);
+</script>
+
+</body>
+</html>
